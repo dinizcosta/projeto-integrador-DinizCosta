@@ -1,0 +1,26 @@
+def cadastrar_doacao():
+    print("--- Cadastro de Doação ---")
+    item = input("Nome do alimento/item: ")
+    quantidade = input("Quantidade: ")
+    validade = int(input("Dias para o vencimento: "))
+    
+    # Lógica de Impacto Social: Alerta de urgência
+    if validade <= 5:
+        print(f"⚠️ ALERTA: O item '{item}' vence em {validade} dias. Priorizar distribuição!")
+    else:
+        print(f"✅ Item '{item}' cadastrado com sucesso no estoque.")
+
+def menu():
+    while True:
+        print("\n1. Cadastrar Doação\n2. Sair")
+        opcao = input("Escolha uma opção: ")
+        if opcao == '1':
+            cadastrar_doacao()
+        elif opcao == '2':
+            print("Sistema encerrado.")
+            break
+        else:
+            print("Opção inválida.")
+
+if __name__ == "__main__":
+    menu()
