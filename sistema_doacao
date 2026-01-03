@@ -1,26 +1,54 @@
+# Sistema de Gestão de Doações - Versão 2.0
+# Desenvolvedor: Diniz dos Santos Costa
+
+estoque = []  # Lista que armazena as doações
+
 def cadastrar_doacao():
-    print("--- Cadastro de Doação ---")
+    print("\n--- Novo Cadastro ---")
     item = input("Nome do alimento/item: ")
-    quantidade = input("Quantidade: ")
+    qtd = input("Quantidade (ex: 10kg, 5 unidades): ")
     validade = int(input("Dias para o vencimento: "))
     
-    # Lógica de Impacto Social: Alerta de urgência
-    if validade <= 5:
-        print(f"⚠️ ALERTA: O item '{item}' vence em {validade} dias. Priorizar distribuição!")
+    # Adiciona os dados como um dicionário na lista
+    doacao = {"item": item, "quantidade": qtd, "validade": validade}
+    estoque.append(doacao)
+    print(f"✅ '{item}' adicionado ao estoque.")
+
+def listar_estoque():
+    print("\n--- Itens Cadastrados ---")
+    if not estoque:
+        print("O estoque está vazio.")
     else:
-        print(f"✅ Item '{item}' cadastrado com sucesso no estoque.")
+        for i in estoque:
+            status = "⚠️ URGENTE" if i['validade'] <= 5 else "✅ OK"
+            print(f"[{status}] {i['item']} - Qtd: {i['quantidade']} - Vence em: {i['validade']} dias")
+
+def ver_alertas():
+    print("\n--- Relatório de Validade (Até 5 dias) ---")
+    alertas = [item for item in estoque if item['validade'] <= 5]
+    
+    if not alertas:
+        print("Nenhum item com validade crítica no momento.")
+    else:
+        for i in alertas:
+            print(f"🚩 PRIORIDADE: {i['item']} (Vencimento em {i['validade']} dias!)")
 
 def menu():
     while True:
-        print("\n1. Cadastrar Doação\n2. Sair")
+        print("\n===== GESTÃO DE DOAÇÕES SOCIAL =====")
+        print("1. Cadastrar Doação")
+        print("2. Listar Todos os Itens")
+        print("3. Ver Alertas de Validade")
+        print("4. Sair")
         opcao = input("Escolha uma opção: ")
-        if opcao == '1':
-            cadastrar_doacao()
-        elif opcao == '2':
-            print("Sistema encerrado.")
+        
+        if opcao == '1': cadastrar_doacao()
+        elif opcao == '2': listar_estoque()
+        elif opcao == '3': ver_alertas()
+        elif opcao == '4': 
+            print("Encerrando o sistema social. Até logo!")
             break
-        else:
-            print("Opção inválida.")
+        else: print("Opção inválida.")
 
 if __name__ == "__main__":
     menu()
